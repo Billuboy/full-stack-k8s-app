@@ -27,9 +27,23 @@ spec:
           envFrom:
             - secretRef:
                 name: db-secrets
+          livenessProbe:
+            tcpSocket:
+              port: 5432
+            initialDelaySeconds: 2
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: 5432
+            initialDelaySeconds: 2
+            periodSeconds: 10
           volumeMounts:
             - name: db-data
               mountPath: /var/lib/postgresql/data
+          resources:
+            requests:
+              cpu: '100m'
+              memory: '256Mi'
       volumes:
         - name: db-data
           persistentVolumeClaim:

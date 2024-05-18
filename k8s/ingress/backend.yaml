@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: backend
+  name: backend-ingress
+  labels:
+    tier: backend
+spec:
+  # defaultBackend:
+
+  rules:
+    - host: apis.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-clusterip-svc
+                port:
+                  number: 80

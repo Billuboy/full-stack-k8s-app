@@ -25,3 +25,24 @@ spec:
           envFrom:
             - secretRef:
                 name: backend-secrets
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 1
+            timeoutSeconds: 8
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 1
+            periodSeconds: 10
+            timeoutSeconds: 8
+          resources:
+            requests:
+              cpu: '100m'
+              memory: '256Mi'
+            # limits:
+            #   cpu: '200m'
+            #   memory: '512Mi'
