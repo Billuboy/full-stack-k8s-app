@@ -4,6 +4,8 @@ kind: NetworkPolicy
 metadata:
   namespace: db
   name: default-deny-netpol
+  labels:
+    tier: database
 spec:
   podSelector: {}
   policyTypes:
@@ -16,28 +18,29 @@ kind: NetworkPolicy
 metadata:
   namespace: db
   name: db-netpol
+  labels:
+    tier: database
 spec:
   podSelector:
     matchLabels:
-      tier: db
+      role: db_pods
   policyTypes:
     - Ingress
   ingress:
     - from:
         - namespaceSelector:
             matchLabels:
-              tier: backend
+              space: backend-space
           podSelector:
             matchLabels:
-              tier: backend
+              role: backend_pods
       ports:
         - protocol: TCP
           port: 5432
-    # - from:
-    #     - ipBlock:
-    #         cidr: 192.168.0.0/0
-    #   ports:
-    #     - protocol: TCP
-    #       port: 5432
-    #     - protocol: TCP
-    #       port: 30432
+    # This ingress policy will allow traffic from node-port service for testing the application in local setup.
+    - from:
+        - ipBlock:
+            cidr: 192.168.49.0/24
+      ports:
+        - protocol: TCP
+          port: 5432

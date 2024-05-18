@@ -5,6 +5,7 @@ metadata:
   name: db
   labels:
     tier: db
+    space: db-space
 spec: {}
 status: {}
 
@@ -15,6 +16,7 @@ metadata:
   name: backend
   labels:
     tier: backend
+    space: backend-space
 spec: {}
 status: {}
 
@@ -25,5 +27,6 @@ metadata:
   name: frontend
   labels:
     tier: client
+    space: client-space
 spec: {}
 status: {}
