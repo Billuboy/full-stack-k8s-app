@@ -1,0 +1,61 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  namespace: backend
+  name: default-deny-netpol
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  namespace: backend
+  name: backend-netpol
+spec:
+  podSelector:
+    matchLabels:
+      tier: backend
+  policyTypes:
+    - Ingress
+    # - Egress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              tier: client
+          podSelector:
+            matchLabels:
+              tier: client
+      ports:
+        - protocol: TCP
+          port: 8000
+    - from:
+        - ipBlock:
+            cidr: 192.168.49.0/24
+      ports:
+        - protocol: TCP
+          port: 8000
+    # - from:
+    #     - ipBlock:
+    #         cidr: 103.48.197.213/32
+    #   ports:
+    #     - protocol: TCP
+    #       port: 30080
+    #     - protocol: TCP
+    #       port: 8000
+  # egress:
+  #   - to:
+  #       - namespaceSelector:
+  #           matchLabels:
+  #             tier: database
+  #         podSelector:
+  #           matchLabels:
+  #             tier: database
+  #     ports:
+  #       - protocol: TCP
+  #         port: 5432
