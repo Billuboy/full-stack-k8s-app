@@ -6,10 +6,13 @@ metadata:
   labels:
     tier: frontend
 spec:
-  # defaultBackend:
-
+  ingressClassName: nginx
+  # tls:
+  #   - hosts:
+  #       - www.mydomain.com
+  #     secretName: frontend-tls
   rules:
-    - host: www.example.com
+    - host: www.mydomain.com
       http:
         paths:
           - path: /

@@ -6,10 +6,13 @@ metadata:
   labels:
     tier: backend
 spec:
-  # defaultBackend:
-
+  ingressClassName: nginx
+  # tls:
+  #   - hosts:
+  #       - apis.mydomain.com
+  #     secretName: backend-tls
   rules:
-    - host: apis.example.com
+    - host: apis.mydomain.com
       http:
         paths:
           - path: /
